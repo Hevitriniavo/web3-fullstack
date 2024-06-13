@@ -108,7 +108,7 @@ export const findCarById = async (carId: string) => {
     }
 };
 
-export const deleteCar = async (carId: string) => {
+export const deleteCarById = async (carId: string) => {
     try {
         const carWithImages = await findCarById(carId);
 

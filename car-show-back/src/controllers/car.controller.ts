@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { findAllCars, createCar as createCarInRepository, updateCar as updatedCarInRepository, findCarById, deleteCar as deleteCarInRepository } from "../repositories/car.repository";
+import { findAllCars, createCar as createCarInRepository, updateCar as updatedCarInRepository, findCarById, deleteCarById as deleteCarInRepository } from "../repositories/car.repository";
 
 export const getAllCars = async (req: Request, res: Response) => {
     try {
@@ -35,7 +35,7 @@ export const createCar = async (req: Request, res: Response) => {
 
 
 export const getCarById = async (req: Request, res: Response) => {
-    const carId = req.params.carId as string;
+    const carId = req.params.id as string;
     try {
         const car = await findCarById(carId)
         res.json(car);
@@ -46,7 +46,7 @@ export const getCarById = async (req: Request, res: Response) => {
 }
 
 export const deleteCar = async (req: Request, res: Response) => {
-    const carId = req.params.carId as string;
+    const carId = req.params.id as string;
     try {
         const deletedCar = await deleteCarInRepository(carId)
         res.json(deletedCar);
@@ -58,7 +58,7 @@ export const deleteCar = async (req: Request, res: Response) => {
 
 
 export const updateCar = async (req: Request, res: Response) => {
-    const carId = req.params.carId as string;
+    const carId = req.params.id as string;
     const { name, description, brand, model, price, color, motorType, power, placeNumber, type } = req.body;
     try {
         if (!req.files || !Array.isArray(req.files)) {
