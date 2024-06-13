@@ -32,8 +32,8 @@ model Car {
   color       String?
   motorType   String?
   power       String?
-  placeNumber Int?
-  status      CarStatus?
+  placeNumber String?
+  status      CarStatus
   type        String
   images      Image[]
   appointments Appointment[]
@@ -56,7 +56,7 @@ model Appointment {
   message         String?
   contact         String?
   appointmentDate DateTime?
-  status          AppointmentStatus?
+  status          AppointmentStatus
 }
 
 model User {

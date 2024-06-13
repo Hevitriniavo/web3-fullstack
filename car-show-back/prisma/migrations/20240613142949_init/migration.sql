@@ -15,8 +15,8 @@ CREATE TABLE "Car" (
     "color" TEXT,
     "motorType" TEXT,
     "power" TEXT,
-    "placeNumber" INTEGER,
-    "status" "CarStatus",
+    "placeNumber" TEXT,
+    "status" "CarStatus" NOT NULL,
     "type" TEXT NOT NULL,
 
     CONSTRAINT "Car_pkey" PRIMARY KEY ("id")
@@ -41,7 +41,7 @@ CREATE TABLE "Appointment" (
     "message" TEXT,
     "contact" TEXT,
     "appointmentDate" TIMESTAMP(3),
-    "status" "AppointmentStatus",
+    "status" "AppointmentStatus" NOT NULL,
 
     CONSTRAINT "Appointment_pkey" PRIMARY KEY ("id")
 );

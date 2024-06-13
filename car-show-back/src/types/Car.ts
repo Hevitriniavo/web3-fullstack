@@ -1,14 +1,16 @@
+import { CarStatus } from "@prisma/client";
+
 export type  Car =  {
     id ?: string;
     name: string;
     description?: string;
     brand?: string;
     model?: string;
-    price?: number;
+    price: string;
     color?: string;
     motorType?: string;
     power?: string;
-    placeNumber?: number;
-    status?: string;
-    type?: string;
+    placeNumber?: string;
+    status : CarStatus;
+    type : string;
 }
