@@ -2,7 +2,7 @@ import { AppointmentStatus } from "@prisma/client";
 
 export type Appointment = {
     id ?: string;
-    carId ?: string;
+    carId : string;
     name: string;
     firstName?: string;
     email: string;
