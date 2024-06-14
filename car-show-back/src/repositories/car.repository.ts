@@ -3,23 +3,36 @@ import { CarWithImageType } from "../types/CarWithImageType";
 import { CarStatus } from "@prisma/client";
 import { deleteImages, prepareCarData } from "../utils/utils";
 
-export const findAllCars = async () => {
+
+export const findAllCars = async (page: number, perPage: number, sortField: string, sortOrder: 'asc' | 'desc') => {
     try {
-        return await prisma.car.findMany({
+        const skip = (page - 1) * perPage;
+        const cars = await prisma.car.findMany({
+            skip: skip,
+            take: perPage,
+            orderBy: {
+                [sortField]: sortOrder,
+            },
             include: {
                 images: {
                     select: {
                         id: true,
-                        url: true
-                    }
-                }
-            }
+                        url: true,
+                    },
+                },
+            },
         });
+        const total = await prisma.car.count();
+        return {
+            data: cars,
+            total: total,
+        };
     } catch (error) {
-        console.error("Error in findAllCars:", error);
+        console.error('Error in findAllCars:', error);
         throw error;
     }
 };
+
 
 export const createCar = async (carData: CarWithImageType) => {
     try {

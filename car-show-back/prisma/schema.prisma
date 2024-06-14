@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -23,32 +22,32 @@ enum AppointmentStatus {
 }
 
 model Car {
-  id          String    @id @default(uuid())
-  name        String
-  description String?
-  brand       String?
-  model       String?
-  price       Float?
-  color       String?
-  motorType   String?
-  power       String?
-  placeNumber String?
-  status      CarStatus
-  type        String
-  images      Image[]
+  id           String        @id @default(uuid())
+  name         String
+  description  String?
+  brand        String?
+  model        String?
+  price        Float?
+  color        String?
+  motorType    String?
+  power        String?
+  placeNumber  String?
+  status       CarStatus
+  type         String
+  images       Image[]
   appointments Appointment[]
 }
 
 model Image {
-  id     String  @id @default(uuid())
-  url    String
-  car    Car     @relation(fields: [carId], references: [id])
-  carId  String
+  id    String @id @default(uuid())
+  url   String
+  car   Car    @relation(fields: [carId], references: [id])
+  carId String
 }
 
 model Appointment {
-  id              String           @id @default(uuid())
-  car             Car              @relation(fields: [carId], references: [id])
+  id              String            @id @default(uuid())
+  car             Car               @relation(fields: [carId], references: [id])
   carId           String
   name            String
   firstName       String?
@@ -60,8 +59,8 @@ model Appointment {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
+  id       String  @id @default(uuid())
+  email    String  @unique
   password String
   name     String?
 }

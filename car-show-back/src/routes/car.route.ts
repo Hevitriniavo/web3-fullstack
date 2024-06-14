@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { createCar, getAllCars, updateCar, getCarById, deleteCar } from "../controllers/car.controller";
 import upload from "../files/upload";
-/***
-import { verifyAccessToken } from "../utils/jwt";
+/**
+ * import { verifyAccessToken } from "../utils/jwt";
  *  router.get("/",verifyAccessToken, getAllCars);
  */
 

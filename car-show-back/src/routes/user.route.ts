@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, logout, refreshToken, register } from "../auth/auth";
+import { login, logout, refreshToken, register } from "../auths/auth";
 import { deleteUserById, getAllUsers, getUserById, updateUser } from "../controllers/user.controller";
 
 

@@ -3,11 +3,15 @@ import { findAllCars, createCar as createCarInRepository, updateCar as updatedCa
 
 export const getAllCars = async (req: Request, res: Response) => {
     try {
-        const cars = await findAllCars();
-        res.json(cars);
+        const { page = 1, perPage = 10, sortField = 'id', sortOrder = 'asc' } = req.query;
+        const pageNumber = parseInt(page as string, 10);
+        const perPageNumber = parseInt(perPage as string, 10);
+        const sortOrderTyped = sortOrder === 'asc' ? 'asc' : 'desc';
+        const cars = await findAllCars(pageNumber, perPageNumber, sortField as string, sortOrderTyped);
+        res.status(200).json(cars);
     } catch (error) {
-        console.error("Error fetching cars:", error);
-        res.status(500).json({ error: "Failed to fetch cars." });
+        console.error('Error fetching cars:', error);
+        res.status(500).json({ error: 'Failed to fetch cars.' });
     }
 };
 
@@ -33,7 +37,6 @@ export const createCar = async (req: Request, res: Response) => {
     }
 };
 
-
 export const getCarById = async (req: Request, res: Response) => {
     const carId = req.params.id as string;
     try {
@@ -55,7 +58,6 @@ export const deleteCar = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Failed to delete car." });
     }
 };
-
 
 export const updateCar = async (req: Request, res: Response) => {
     const carId = req.params.id as string;

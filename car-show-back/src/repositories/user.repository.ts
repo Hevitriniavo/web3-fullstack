@@ -2,14 +2,29 @@ import prisma from "../databases/db";
 import { User } from "../types/User";
 import { hashPassword } from "../utils/utils";
 
-export const findAllUsers = async () => {
+
+export const findAllUsers = async (page: number, perPage: number, sortField: string, sortOrder: 'asc' | 'desc') => {
     try {
-        return await prisma.user.findMany();
+        const total = await prisma.user.count();
+        const skip = (page - 1) * perPage;
+        const users = await prisma.user.findMany({
+            skip: skip,
+            take: perPage,
+            orderBy: {
+                [sortField]: sortOrder,
+            }
+        });
+
+        return {
+            data: users,
+            total: total,
+        };
     } catch (error) {
         console.error("Error in findAllUsers:", error);
         throw error;
     }
 };
+
 
 export const deleteUserById = async (userId: string) => {
     try {

@@ -2,6 +2,7 @@ import { AppointmentStatus } from "@prisma/client";
 import prisma from "../databases/db";
 import { Appointment } from "../types/Appointment";
 
+
 const carSelection = {
     id: true,
     name: true,
@@ -23,14 +24,23 @@ const carSelection = {
     }
 };
 
-export const findAllAppointments = async () => {
+export const findAllAppointments = async (page: number, perPage: number, sortField: string, sortOrder: 'asc' | 'desc') => {
     try {
-        const appointments = await prisma.appointment.findMany({
-            include: {
-                car: { select: carSelection }
-            }
-        });
-        return appointments;
+        const skip = (page - 1) * perPage;
+        const [appointments, total] = await Promise.all([
+            prisma.appointment.findMany({
+                skip,
+                take: perPage,
+                include: {
+                    car: { select: carSelection }
+                }
+            }),
+            prisma.appointment.count()
+        ]);
+        return {
+            data: appointments,
+            total: total,
+        };
     } catch (error) {
         console.error("Error in findAllUsers:", error);
         throw error;
@@ -89,7 +99,6 @@ export const findAppointmentById = async (appointmentId: string) => {
     }
 };
 
-
 export const updateAppointment = async (appointmentId: string, appointment: Appointment) => {
     try {
         const existingAppointment = await findAppointmentById(appointmentId);
@@ -109,8 +118,6 @@ export const updateAppointment = async (appointmentId: string, appointment: Appo
         throw error;
     }
 };
-
-
 
 export const updateAppointmentStatus = async (appointmentId: string, status: AppointmentStatus) => {
     try {

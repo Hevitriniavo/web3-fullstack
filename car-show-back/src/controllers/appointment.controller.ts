@@ -9,9 +9,15 @@ import {
 
 import { AppointmentStatus } from '@prisma/client';
 
+
 export const getAllAppointments = async (req: Request, res: Response) => {
     try {
-        const appointments = await findAllAppointments();
+        const { page = 1, perPage = 10, sortField = 'id', sortOrder = 'asc' } = req.query;
+        const pageNumber = parseInt(page as string, 10);
+        const perPageNumber = parseInt(perPage as string, 10);
+        const sortOrderTyped = sortOrder === 'asc' ? 'asc' : 'desc';
+
+        const appointments = await findAllAppointments(pageNumber, perPageNumber, sortField as string, sortOrderTyped);
         res.json(appointments);
     } catch (error) {
         console.error("Error in getAllAppointments:", error);
@@ -63,8 +69,6 @@ export const deleteAppointment = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-
 
 export const updateAppointmentStatus = async (req: Request, res: Response) => {
     const appointmentId = req.params.id as string;
